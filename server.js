@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Post = require('./models/post');
+const User = require('./models/user');
 
 
 const PORT = 3000;
@@ -22,6 +23,8 @@ const handleError = (res, message) => {
 const app = express();
 
 
+
+
 app.get("/post", cors(), (req, res) => {
     Post
         .find()
@@ -34,8 +37,28 @@ app.get("/post", cors(), (req, res) => {
         .catch(() => handleError(res, "чето не так с постами"))
 })
 
+
+
+
 app.get("/post/:id", cors(), (req, res) => {
     Post
+        .findById(req.params.id)
+        .sort({ title: 1 })
+        .then((post) => {
+            res
+                .status(200)
+                .json(post)
+        })
+        .catch(() => handleError(res, "чето не так"))
+})
+
+
+
+
+
+
+app.get("/profile/:id", cors(), (req, res) => {
+    User
         .findById(req.params.id)
         .sort({ title: 1 })
         .then((post) => {
