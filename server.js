@@ -52,6 +52,18 @@ app.get("/post/:id", cors(), (req, res) => {
         .catch(() => handleError(res, "чето не так"))
 })
 
+app.get("/profile/posts/:id", cors(), (req, res) => {
+    Post
+        .find({ autorOfPublic: req.params.id })
+        .sort({ title: 1 })
+        .then((post) => {
+            res
+                .status(200)
+                .json(post)
+        })
+        .catch(() => handleError(res, "чето не так"))
+})
+
 
 
 
